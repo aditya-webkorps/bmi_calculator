@@ -1,5 +1,8 @@
+import 'package:bmi_calculator/widget/weight_age_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'widget/bmi_result_widget.dart';
 
 class BmiCalculatorPage extends StatefulWidget {
   const BmiCalculatorPage({super.key});
@@ -42,17 +45,14 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                     child: InkWell(
                       onTap: () {
                         gender = 1;
-
-                        print(gender);
-
                         setState(() {});
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: gender == 1
-                              ? Color(0xFF797979)
-                              : Color(0xFF484848),
+                              ? const Color(0xFF797979)
+                              : const Color(0xFF484848),
                         ),
 
                         // width: MediaQuery.of(context).size.width * 0.45,
@@ -76,16 +76,14 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                     child: InkWell(
                       onTap: () {
                         gender = 2;
-
-                        print(gender);
                         setState(() {});
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: gender == 2
-                              ? Color(0xFF797979)
-                              : Color(0xFF484848),
+                              ? const Color(0xFF797979)
+                              : const Color(0xFF484848),
                         ),
                         // width: MediaQuery.of(context).size.width * 0.45,
                         height: MediaQuery.of(context).size.height * 0.1,
@@ -103,19 +101,21 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                 ],
               ),
 
-              SizedBox(
-                height: kIsWeb ?  15.0 : 10,
+              const SizedBox(
+                height: kIsWeb ? 15.0 : 10,
               ),
 
               // HEIGHT ROW
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: Color(0xFF484848),
+                  color: const Color(0xFF484848),
                 ),
                 width: MediaQuery.of(context).size.width,
-                height: kIsWeb ? MediaQuery.of(context).size.height * 0.15 : MediaQuery.of(context).size.height * 0.13,
+                height: kIsWeb
+                    ? MediaQuery.of(context).size.height * 0.15
+                    : MediaQuery.of(context).size.height * 0.13,
                 child: Column(
                   children: [
                     Text(
@@ -125,13 +125,12 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                           fontSize: 20,
                           fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5.0,
                     ),
                     Slider(
                       value: _sliderValue,
                       onChanged: (value) {
-                        print(value);
                         _sliderValue = value;
 
                         setState(() {});
@@ -153,150 +152,28 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
               // WEIGHT AND AGE ROW
               Row(
                 children: [
-                  Expanded(
-                      child: Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Color(0xFF484848),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "WEIGHT $_weight",
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // WEIGHT UPWARD
-                            InkWell(
-                              onTap: () {
-                                _weight = _weight + 1;
-                                setState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  color: Color(0xFF808080),
-                                ),
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.arrow_upward,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                if (_weight > 0) {
-                                  _weight = _weight - 1;
-                                }
-                                setState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  color: Color(0xFF808080),
-                                ),
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.arrow_downward,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
-                  SizedBox(
+                  /// WEIGHT
+                  WeightAgeWidget(
+                    label: "WEIGHT",
+                    weightChanged: (int weight) {
+                      _weight = weight;
+                    },
+                  ),
+                  const SizedBox(
                     width: 10.0,
                   ),
-                  Expanded(
-                      child: Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Color(0xFF484848),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "AGE $_age",
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                if (_age < 120) {
-                                  _age = _age + 1;
-                                }
-                                setState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  color: Color(0xFF808080),
-                                ),
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.arrow_upward,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                if (_age > 0) {
-                                  _age = _age - 1;
-                                }
-                                setState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  color: Color(0xFF808080),
-                                ),
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.arrow_downward,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
+
+                  /// AGE
+                  WeightAgeWidget(
+                    label: "AGE",
+                    weightChanged: (int value) {
+                      _age = value;
+                    },
+                  ),
                 ],
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
 
@@ -313,9 +190,9 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                       height: 60.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Color(0xFF6F6F6F),
+                        color: const Color(0xFF6F6F6F),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "CLEAR",
                           style: TextStyle(
@@ -326,7 +203,7 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                       ),
                     ),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     width: 10.0,
                   ),
                   Expanded(
@@ -341,9 +218,9 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                       height: 60.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: Color(0xFF4BB14F),
+                        color: const Color(0xFF4BB14F),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "GET BMI",
                           style: TextStyle(
@@ -356,47 +233,13 @@ class _BmiCalculatorPageState extends State<BmiCalculatorPage> {
                   )),
                 ],
               ),
-              SizedBox(
+
+              const SizedBox(
                 height: 10.0,
               ),
+
               // CALCULATED BMI
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Color(0xFF484848),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        "YOUR BMI IS",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.0,
-                            color: Colors.white),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            "${_result.toStringAsFixed(1)}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 100.0,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      Text("Overweight", style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20.0,
-                          color: Colors.white),),
-                    ],
-                  ),
-                ),
-              )
+              BmiResultWidget(result: _result)
             ],
           ),
         ),
